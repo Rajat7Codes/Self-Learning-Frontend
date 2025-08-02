@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import type { TaskItem } from '../pages/TasksPage';
 import { Difficulty } from '../util/Difficulty';
 import { ProgressStatus } from '../util/ProgressStatus';
