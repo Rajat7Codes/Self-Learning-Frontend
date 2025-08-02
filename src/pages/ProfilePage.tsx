@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import API_BASE_URL from '../util/ApiConfig';
 import { Gender } from '../util/Gender';
 import { useAuth } from '../auth/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 interface UserProfile {
   firstName: string,
@@ -15,8 +16,13 @@ interface UserProfile {
 const ProfilePage: React.FC = () => {
   const [user, setUserProfile] = useState<UserProfile>();
   const { token } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if( !token) {
+      navigate('/login');
+    }
+
     const fetchProfile = async () => {
       try {
         const response = await fetch(`${API_BASE_URL}/auth/profile`, {
@@ -43,9 +49,9 @@ const ProfilePage: React.FC = () => {
     <div className=''>
       <h1 className="text-2xl font-bold mb-4">Your Profile</h1>
       <div className="bg-white p-4 rounded shadow">
-        <p><strong>Username:</strong> {user?.firstName} {user?.lastName} </p>
-        <p><strong>Email:</strong> {user?.email}</p>
-        <p><strong>Phone:</strong> {user?.phoneNumber}</p>
+        <p className='px-2 mb-2'><strong>Username:</strong> {user?.firstName} {user?.lastName} </p>
+        <p className='px-2 mb-2'><strong>Email:</strong> {user?.email}</p>
+        <p className='px-2'><strong>Phone:</strong> {user?.phoneNumber}</p>
       </div>
     </div>
   );

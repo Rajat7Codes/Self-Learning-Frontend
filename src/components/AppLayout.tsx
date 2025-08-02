@@ -4,6 +4,7 @@ import { useAuth } from '../auth/AuthContext';
 export const AppLayout = () => {
   const { logout } = useAuth();
   const navigate = useNavigate();
+  const { token } = useAuth();
 
   const handleLogout = () => {
     logout();
@@ -25,11 +26,13 @@ export const AppLayout = () => {
             <NavLink to="/profile" className={({ isActive }) => isActive ? 'font-bold' : ''}>Your Profile</NavLink>
           </li>
         </ul> 
+        { token ? (
         <button
           onClick={handleLogout}
           className="flex-none w-full p-2 border-2 border-white-50">
           Logout
         </button>
+        ) : (<div></div>) }
       </nav>
 
       <main className="flex-1 bg-slate-200 min-h-screen p-4">

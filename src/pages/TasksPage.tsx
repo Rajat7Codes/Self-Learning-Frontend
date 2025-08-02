@@ -5,6 +5,7 @@ import type { TopicType } from '../util/TopicType';
 import type { Difficulty } from '../util/Difficulty';
 import TopicItemCard from '../components/TopicItemCard';
 import { ProgressStatus } from '../util/ProgressStatus';
+import { useNavigate } from 'react-router-dom';
 
 export interface Task {
   id: number,
@@ -30,9 +31,13 @@ const TasksPage: React.FC = () => {
   const [todaysTasks, setTodaysTasks] = useState<Task[]>([]);
   const { token } = useAuth();
   const today = new Date().toISOString().split('T')[0];
-  
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if( !token) {
+      navigate('/login');
+    }
+
     const fetchTodaysTasks = async () => {
       try {
         const response = await fetch(`${API_BASE_URL}/tasks/by-date?date=${today}`, {
@@ -90,22 +95,6 @@ const TasksPage: React.FC = () => {
           </div>
           ))}
           <hr />
-          {/* <div className='flex flex-row bg-slate-300 p-5 font-medium'>
-            <div className='pr-6 content-center justify-items-center'>
-              <img className='w-8 grayscale contrast-100' src="./public/checkmark.png" />
-            </div>
-            <div className='grow'>
-              <h3 className='text-lg'>Topic Name</h3>
-              <p className='text-xs mb-2'>Section Name - Division Name</p>
-              <p className='text-sm'> <a className='text-blue-600' href="https://tailwindcss.com/docs/font-size"> Ref 1 : https://tailwindcss.com/docs/font-size </a></p>
-              <p className='text-sm'> <a className='text-blue-600' href="https://tailwindcss.com/docs/font-size"> Ref 2 : https://tailwindcss.com/docs/font-size </a></p>
-            </div>
-            <div className='content-center'>
-              <button className="bg-slate-500 hover:bg-slate-700 text-white text-sm py-1 px-4 border border-slate-700 rounded">
-                Mark Done
-              </button>
-            </div>
-          </div> */}
         </div>
         ) : (
 
